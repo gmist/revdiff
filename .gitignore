@@ -55,3 +55,6 @@ __pycache__/
 
 # revmux review rounds and run archives
 .revmux/tasks/
+
+# mimocode
+.mimocode/

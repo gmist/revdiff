@@ -330,6 +330,27 @@ The setup script copies files to `~/.config/opencode/` and registers the plan-re
 
 The plan-review plugin automatically launches revdiff when the assistant exits plan mode, letting you annotate before approval.
 
+#### MiMoCode
+
+revdiff integrates with [MiMoCode](https://github.com/XiaomiMiMo/MiMo-Code) via a tool, slash command, and plan-review plugin. The tool wraps the existing `launch-revdiff.sh` launcher, so terminal detection stays in sync automatically.
+
+**Install:**
+
+```bash
+cd plugins/mimocode && bash setup.sh
+```
+
+The setup script copies files to `~/.config/mimocode/`. No config registration is needed — MiMoCode auto-discovers `tools/`, `commands/` and `plugin/` under its config dir. The tool and plan-review plugin treat exit code `10` as success-with-annotations and keep captured output. See [plugins/mimocode/README.md](plugins/mimocode/README.md) for manual installation and details.
+
+**Commands inside MiMoCode:**
+
+```text
+/revdiff                         -- review git diff with revdiff TUI
+/revdiff HEAD~3                  -- review last 3 commits
+```
+
+The plan-review plugin hooks `session.idle`: after a turn in plan mode (agent `plan`), it launches revdiff over the last plan and injects any annotations back as a user message so the agent can revise.
+
 #### General
 
 The structured stdout output works with any tool that can read text. By default revdiff exits `0` even when annotations are produced; pass `--exit-code-on-annotations` to return `10` for successful annotation output:
